@@ -11,7 +11,7 @@
   ansible.builtin.import_tasks: set_facts.yml
 
 - name: Uninstall OpenVPN
-  ansible.builtin.import_tasks: uninstall.yml
+  ansible.builtin.include_tasks: uninstall.yml
   when: openvpn_uninstall
 
 - name: Install OpenVPN
@@ -40,7 +40,7 @@
   when: openvpn_server_ipv6_network is defined and not ci_build
 
 - name: Detect firewall type
-  ansible.builtin.import_tasks: firewall.yml
+  ansible.builtin.include_tasks: firewall.yml
   when:
     - not ci_build
     - manage_firewall_rules
@@ -48,22 +48,22 @@
     - firewall
 
 - name: Configure SELinux
-  ansible.builtin.import_tasks: selinux.yml
+  ansible.builtin.include_tasks: selinux.yml
   when:
     - ansible_selinux.status == "enabled"
 
 - name: Compare existing certs against 'clients' variable
-  ansible.builtin.import_tasks: cert_sync_detection.yml
+  ansible.builtin.include_tasks: cert_sync_detection.yml
   when: openvpn_sync_certs
   tags:
     - sync_certs
 
 - name: Generate client configs
-  ansible.builtin.import_tasks: client_keys.yml
+  ansible.builtin.include_tasks: client_keys.yml
   when: clients is defined
 
 - name: Generate revocation list and clean up
-  ansible.builtin.import_tasks: revocation.yml
+  ansible.builtin.include_tasks: revocation.yml
   when: >-
     (openvpn_revoke_these_certs is defined)
     or

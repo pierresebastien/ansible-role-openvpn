@@ -54,7 +54,7 @@
     - ansible_distribution == "CentOS" and ansible_distribution_major_version != "8" or ansible_distribution != "CentOS"
 
 - name: Compile LDAP plugin
-  ansible.builtin.import_tasks: compile_ldap_plugin.yml
+  ansible.builtin.include_tasks: compile_ldap_plugin.yml
   when:
     - openvpn_use_ldap
     - ansible_distribution == "CentOS" and ansible_distribution_major_version == "8"

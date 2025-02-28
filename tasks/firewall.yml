@@ -31,21 +31,21 @@
   when: firewalld.rc != 0 and ufw.rc != 0 and iptables.rc != 0
 
 - name: Add port rules (iptables)
-  ansible.builtin.import_tasks: iptables.yml
+  ansible.builtin.include_tasks: iptables.yml
   when: >-
     (openvpn_firewall == 'iptables')
     or
     (openvpn_firewall == 'auto' and firewalld.rc != 0 and ufw.rc != 0 and iptables.rc == 0)
 
 - name: Add port rules (firewalld)
-  ansible.builtin.import_tasks: firewalld.yml
+  ansible.builtin.include_tasks: firewalld.yml
   when: >-
     (openvpn_firewall == 'firewalld')
     or
     (openvpn_firewall == 'auto' and firewalld.rc == 0 and ufw.rc != 0)
 
 - name: Add port rules (ufw)
-  ansible.builtin.import_tasks: ufw.yml
+  ansible.builtin.include_tasks: ufw.yml
   when: >-
     (openvpn_firewall == 'ufw')
     or
